@@ -1,0 +1,46 @@
+﻿@{
+    ViewData["Title"] = "Posts Page";
+}
+@model Posts
+
+<div id="wrapperWevsite">
+    <div id="myPosts">
+        <h1>חדשות</h1>
+        <hr />
+        @foreach (var item in Model.postsDetails)
+        {
+            <p>
+                <a href="@Url.Action("Details", "Post", new { title = item.Title })" class="post-title">@item.Title</a>
+            </p>
+        }
+    </div>
+    <div id="postDetails"></div>
+    @section Scripts {
+        
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/js/site.js"></script>
+        <script>
+            $(function () {
+                 $('a').on('click', function () {
+                 $('a').removeClass('active');
+                $(this).addClass('active');
+                });
+                $('.post-title').on('click', function (e) {
+                    e.preventDefault();
+                    var title = e.target.innerText;
+                    $.ajax({
+                        url: 'PostsController1/Details?title=' + encodeURIComponent(title),
+                        type: 'GET',
+                        success: function (data) {
+                            $('#postDetails').html(data);
+                        },
+                        error: function (err) {
+                            console.log(err);
+                            alert('אפשר לנסות מאוחר יותר');
+                        }
+                    });
+                });
+            });
+        </script>
+    }
+</div>

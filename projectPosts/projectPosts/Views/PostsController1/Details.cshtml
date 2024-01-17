@@ -1,0 +1,42 @@
+﻿@{
+    ViewData["Title"] = "Details Page";
+}
+
+@model Post;
+@section Scripts {
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+}
+<div class="containerDetails">
+    <div class="itemBodyPost">
+        <h4>@Model?.Title</h4>
+    </div>
+    <div id="bodyPost">
+        <div class="itemBodyPost">
+            <h5>תיאור</h5>
+            <div>@Model?.Body?.description</div>
+        </div>
+        <div class="itemBodyPost">
+            <h5>תאריך פרסום</h5>
+            <p>@Model?.Body?.pubDate</p>
+        </div>
+        @if (@Model?.Body?.audioUrl!=null)
+        {
+            <div class="itemBodyPost">
+            <h5>שמע</h5>
+            <audio controls>
+                <source src="@Model?.Body?.audioUrl" type="audio/mp3">
+            </audio>
+            </div>
+        }
+        <div class="itemBodyPost">
+            <h5>קטגוריות</h5>
+            @foreach (var category in @Model?.Body?.categories)
+            {
+                <p>@category</p>
+            }    
+        </div>
+    </div>
+    <div class="itemBodyPost">
+        <p><a href="@Model?.Link" class="link" target="_blank">לכתבה המלאה</a></p>
+    </div>
+</div>
