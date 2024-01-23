@@ -22,21 +22,27 @@ body {
     direction: rtl;
     width: 100%;
     height:100%;
+    padding-top:2px;
 }
 
 #postDetails {
     height:50%;
+    width:60%;
 }
 
-.link{
- direction:ltr;
+.link {
+    direction: ltr;
+    display:flex;
+    text-align:center;
+    flex-direction:column;
+    font-size: 20px;
 }
 
 #bodyPost {
     border: solid 2px #3a9999;
     min-height: 200px;
-    width: 50%;
     text-align: center;
+    width:70%;
 }
 
 .containerDetails {
@@ -44,7 +50,6 @@ body {
     flex-wrap: wrap;
     align-items: center;
     flex-direction: column;
-    position: sticky;
 }
 .itemBodyPost{
     padding:15px;
@@ -54,6 +59,8 @@ body {
     flex-direction: column;
     align-items: center;
     color: black;
+    border: solid 2px #3a9999;
+    width:40%;
 }
 a{
     color:black;
@@ -68,8 +75,19 @@ a:hover {
     height: 100%;
 }
 hr {
-    border: solid 2px #2b6969;
+   background-color:#3a9999;
+   width:100%;
+}
+hr:not([size]) {
+height: 2px;
 }
 .active{
     color:#3a9999;
+}
+.postTitel{
+    padding-right:10px;
+    padding-left:10px;
+}
+.newsH1 {
+    padding-top: 15px;
 }

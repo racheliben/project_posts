@@ -18,14 +18,29 @@ namespace DAL
             _httpClientFactory = httpClientFactory;
         }
         
-        public async Task<Posts> GetNewsFeedAsync()
+        public async Task<PostsTitle> GetNewsFeedAsync()
         {
+            PostsTitle postsTitle = new PostsTitle
+            {
+                titles = new List<PostTitle>()
+            };
+
             var cacheData = _cache.Get<Posts>("Posts");
             if (cacheData != null)
             {
-               return cacheData;
+               foreach (var item in cacheData.postsDetails)
+                {
+                    postsTitle.titles.Add(new PostTitle {title= item.title});
+                }
+               return postsTitle;
             }
-            Posts posts = new Posts();
+            
+            Posts posts = new Posts
+            {
+                postsDetails = new List<Post>()
+            };
+
+           
             var httpClient = _httpClientFactory.CreateClient();
             try
             {
@@ -35,10 +50,10 @@ namespace DAL
                 var xmlDoc = new XmlDocument();
                 xmlDoc.LoadXml(xmlContent);
                 var entries = xmlDoc.SelectNodes("//item");
-                posts = new Posts
-                {
-                    postsDetails = new List<Post>()
-                };
+                //posts = new Posts
+                //{
+                //    postsDetails = new List<Post>()
+                //};
                 int i = 1;
                 foreach (XmlNode entry in entries)
                 {
@@ -54,17 +69,18 @@ namespace DAL
                     }
                     var audioUrl = entry.SelectSingleNode("enclosure")?.Attributes["url"].Value;
                     var pubDate = entry.SelectSingleNode("pubDate")?.InnerText;
+                    postsTitle.titles.Add(new PostTitle { title = title });
                     posts.postsDetails.Add(new Post 
                     { 
-                        Title = title,
-                        Body=new Body
+                        title = title,
+                        body=new Body
                         {
                             description=description,
                             audioUrl=audioUrl,
                             pubDate=pubDate,
                             categories=categories
                         },
-                        Link=URL+link
+                        link=link
                     });
                     
                     i++;
@@ -76,7 +92,7 @@ namespace DAL
             {
                 Console.WriteLine(e);
             }
-            return posts;
+            return postsTitle;
         }
 
         public async Task<Post> GetPostDetailsAsync(string title)
@@ -113,15 +129,15 @@ namespace DAL
                             var pubDate = entry.SelectSingleNode("pubDate")?.InnerText;
                             currentPost = new Post
                             {
-                                Title = title,
-                                Body = new Body
+                                title = title,
+                                body = new Body
                                 {
                                     description = description,
                                     audioUrl = audioUrl,
                                     pubDate = pubDate,
                                     categories = categories
                                 },
-                                Link = URL + link
+                                link = URL + link
                             }; 
                         }
                         i++;
@@ -136,7 +152,7 @@ namespace DAL
             {
                 foreach (var post in cacheData.postsDetails)
                 {
-                    if (post.Title == title)
+                    if (post.title == title)
                         currentPost = post;
                 }
             }

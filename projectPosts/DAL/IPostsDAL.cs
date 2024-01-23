@@ -5,7 +5,7 @@ namespace DAL
 {
     public interface IPostsDAL
     {
-      Task<Posts> GetNewsFeedAsync();
+      Task<PostsTitle> GetNewsFeedAsync();
       Task<Post> GetPostDetailsAsync(string title);
     }
 }

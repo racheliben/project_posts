@@ -7,9 +7,9 @@
 
     public class Post
     {
-        public string Title { get; set; }
-        public Body Body { get; set; }
-        public string Link { get; set; }
+        public string title { get; set; }
+        public Body body { get; set; }
+        public string link { get; set; }
     }
 
     public class Body

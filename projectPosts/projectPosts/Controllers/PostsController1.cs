@@ -17,8 +17,8 @@ namespace projectPosts.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var posts = await _postsDAL.GetNewsFeedAsync();
-            return View(posts);
+            var postsTitle = await _postsDAL.GetNewsFeedAsync();
+            return View(postsTitle);
         }
 
         [HttpGet]
